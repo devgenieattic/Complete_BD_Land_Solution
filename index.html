@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevGenie Land Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="preloader" class="preloader">
+        <div class="preloader-card">
+            <div class="preloader-logo">DG</div>
+            <div class="preloader-text">DevGenie Land Calculator</div>
+            <div class="preloader-subtext">Smart land tools are getting ready...</div>
+            <div class="preloader-progress-bar">
+                <span class="preloader-progress"></span>
+            </div>
+        </div>
+    </div>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Day/Night Mode" aria-label="Toggle theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Keyboard Help -->
+    <div class="keyboard-help">
+        <button class="keyboard-help-btn" onclick="showKeyboardHelp()" title="Keyboard Shortcuts" aria-label="Keyboard shortcuts">?</button>
+    </div>
+
+    <!-- Keyboard Help Modal -->
+    <div class="keyboard-modal" id="keyboardModal">
+        <div class="keyboard-modal-content">
+            <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h8"/>
+                </svg>
+                Keyboard Shortcuts
+            </h3>
+            <div class="keyboard-list">
+                <div class="keyboard-item"><span>Switch to Land Calculator</span><kbd>Alt + 1</kbd></div>
+                <div class="keyboard-item"><span>Switch to Jomi Converter</span><kbd>Alt + 2</kbd></div>
+                <div class="keyboard-item"><span>Switch to Scientific Calc</span><kbd>Alt + 3</kbd></div>
+                <div class="keyboard-item"><span>Add New Row</span><kbd>Ctrl + N</kbd></div>
+                <div class="keyboard-item"><span>Duplicate Row</span><kbd>Ctrl + D</kbd></div>
+                <div class="keyboard-item"><span>Manual Save</span><kbd>Ctrl + S</kbd></div>
+                <div class="keyboard-item"><span>Manual Load</span><kbd>Ctrl + L</kbd></div>
+                <div class="keyboard-item"><span>Toggle Theme</span><kbd>Ctrl + T</kbd></div>
+                <div class="keyboard-item"><span>Reset</span><kbd>Esc</kbd></div>
+                <div class="keyboard-item"><span>Navigate Table</span><kbd>↑ ↓</kbd></div>
+                <div class="keyboard-item"><span>Copy Share Value</span><kbd>Enter</kbd></div>
+            </div>
+            <button class="close-modal-btn" onclick="hideKeyboardHelp()">Close</button>
+        </div>
+    </div>
+
+    <div class="background-effects">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+
+    <div class="main-container">
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 21h18M3 7v1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7H3l2-4h14l2 4M5 21V10.85M19 21V10.85M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/>
+                    </svg>
+                </div>
+                <h1 class="title">DevGenie Land Calculator</h1>
+                <span class="subtitle-badge">Complete Bangladesh Land Solution</span>
+            </div>
+            <div class="decorative-line"></div>
+        </header>
+
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="landCalc" onclick="switchTab('landCalc')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>আনা-গণ্ডা ক্যালকুলেটর</span>
+            </button>
+            <button class="tab-btn" data-tab="jomiConverter" onclick="switchTab('jomiConverter')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M9 21V9M21 15l-6-6-6 6"/>
+                </svg>
+                <span>জমি পরিমাপ ক্যালকুলেটর</span>
+            </button>
+            <button class="tab-btn" data-tab="scientificCalc" onclick="switchTab('scientificCalc')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="4" y="2" width="16" height="20" rx="2"/>
+                    <line x1="8" y1="6" x2="16" y2="6"/>
+                    <line x1="8" y1="10" x2="16" y2="10"/>
+                    <line x1="8" y1="14" x2="12" y2="14"/>
+                    <line x1="8" y1="18" x2="12" y2="18"/>
+                </svg>
+                <span>সাইন্টিফিক ক্যালকুলেটর</span>
+            </button>
+        </div>
+
+        <!-- Land Calculator Tab -->
+        <div id="landCalc" class="tab-content active">
+            <div class="author-section">
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="8" r="4"/>
+                            <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-bar">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4M12 8h.01"/>
+                    </svg>
+                </div>
+                <div class="info-content">
+                    <span class="info-label">Conversion Rates</span>
+                    <span class="info-text">১ আনা = ২০ গণ্ডা | ১ গণ্ডা = ৪ কড়া | ১ কড়া = ৩ ক্রান্তি | ১ ক্রান্তি = ২০ তিল | ১৬ আনা (১্) = সম্পূর্ণ অংশ</span>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <div class="table-header-row">
+                    <h2 class="table-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                            <rect x="9" y="3" width="6" height="4" rx="1"/>
+                            <path d="M9 12h6M9 16h6"/>
+                        </svg>
+                        Land Owner Registry
+                    </h2>
+                    <div class="table-stats">
+                        <span class="stat-item">
+                            <span class="stat-value" id="ownerCount">0</span>
+                            <span class="stat-label">Owners</span>
+                        </span>
+                        <span class="stat-divider"></span>
+                        <span class="stat-item">
+                            <span class="stat-value" id="totalPercentage">0%</span>
+                            <span class="stat-label">Total</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="table-scroll">
+                    <table id="landTable">
+                        <thead>
+                            <tr class="header-row">
+                                <th class="th-name">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                    <span>Name</span>
+                                </th>
+                                <th class="th-ana">
+                                    <span class="th-main">আনা</span>
+                                    <span class="th-sub">Ana</span>
+                                </th>
+                                <th class="th-gonda">
+                                    <span class="th-main">গণ্ডা</span>
+                                    <span class="th-sub">Gonda</span>
+                                </th>
+                                <th class="th-kora">
+                                    <span class="th-main">কড়া</span>
+                                    <span class="th-sub">Kora</span>
+                                </th>
+                                <th class="th-kranti">
+                                    <span class="th-main">ক্রান্তি</span>
+                                    <span class="th-sub">Kranti</span>
+                                </th>
+                                <th class="th-til">
+                                    <span class="th-main">তিল</span>
+                                    <span class="th-sub">Til</span>
+                                </th>
+                                <th class="th-share">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                        <path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/>
+                                    </svg>
+                                    <span>Share</span>
+                                </th>
+                                <th class="th-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <div class="total-section">
+                        <div class="total-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                            <span>Total Share</span>
+                        </div>
+                        <div class="total-value" id="grandTotalShare">0.00000</div>
+                        <div class="total-status" id="totalStatus"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-add" onclick="addRow()" accesskey="n">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="16"/>
+                        <line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
+                    <span>Add Owner</span>
+                </button>
+                <button class="btn btn-reset" onclick="window.location.reload()" accesskey="r">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                        <path d="M3 3v5h5"/>
+                    </svg>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Jomi Converter Tab -->
+        <div id="jomiConverter" class="tab-content">
+            <div class="author-section">
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="8" r="4"/>
+                            <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                        </svg>
+                    </div>
+                    <div class="author-info">
+                        <span class="author-name">DevGenie Tools</span>
+                        <span class="author-contact">Complete Land Measurement Solution</span>
+                    </div>
+                    <div class="co-author">
+                        <span class="co-label">Features</span>
+                        <span class="co-name">Unit Conversion</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-bar">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4M12 8h.01"/>
+                    </svg>
+                </div>
+                <div class="info-content">
+                    <span class="info-label">Conversion Reference</span>
+                    <span class="info-text">১ একর = ১০০ শতক | ১ বিঘা = ৩৩ শতক = ৫ কাঠা | ১ কাঠা = ১.৬৫ শতক | ১ শতক = ৪৩৫.৬০ বর্গফুট</span>
+                </div>
+            </div>
+
+            <div class="calculator-wrapper">
+                <div class="calc-header">
+                    <h2 class="calc-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="2" width="16" height="20" rx="2"/>
+                            <line x1="8" y1="6" x2="16" y2="6"/>
+                            <line x1="8" y1="10" x2="16" y2="10"/>
+                            <line x1="8" y1="14" x2="12" y2="14"/>
+                            <line x1="8" y1="18" x2="12" y2="18"/>
+                        </svg>
+                        Land Measurement Converter
+                    </h2>
+                    <div class="calc-stats">
+                        <span class="stat-item">
+                            <span class="stat-value">8</span>
+                            <span class="stat-label">Units</span>
+                        </span>
+                        <span class="stat-divider"></span>
+                        <span class="stat-item">
+                            <span class="stat-value">100%</span>
+                            <span class="stat-label">Accuracy</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="converter-section">
+                    <div class="input-group">
+                        <label class="input-label" for="inputValue2">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="4 17 10 11 4 5"/>
+                                <line x1="12" y1="19" x2="20" y2="19"/>
+                            </svg>
+                            Enter Value
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="number" id="inputValue2" class="calc-input" placeholder="0" step="any" autocomplete="off">
+                            <select id="fromUnit2" class="unit-select">
+                                <option value="decimal">শতক (Decimal)</option>
+                                <option value="katha">কাঠা (Katha)</option>
+                                <option value="bigha">বিঘা (Bigha)</option>
+                                <option value="acre">একর (Acre)</option>
+                                <option value="hectare">হেক্টর (Hectare)</option>
+                                <option value="sqft">বর্গফুট (Sq Ft)</option>
+                                <option value="sqm">বর্গমিটার (Sq M)</option>
+                                <option value="sqyd">বর্গগজ (Sq Yd)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="swap-section">
+                        <button class="swap-btn" onclick="swapUnits2()" title="Swap Units">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 16V4M7 4L3 8M7 4L11 8"/>
+                                <path d="M17 8V20M17 20L21 16M17 20L13 16"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="output-group">
+                        <label class="input-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 17 14 11 20 5"/>
+                                <line x1="4" y1="5" x2="12" y2="5"/>
+                            </svg>
+                            Converted Value
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="outputValue2" class="calc-input output" readonly placeholder="0">
+                            <select id="toUnit2" class="unit-select">
+                                <option value="sqft">বর্গফুট (Sq Ft)</option>
+                                <option value="decimal">শতক (Decimal)</option>
+                                <option value="katha">কাঠা (Katha)</option>
+                                <option value="bigha">বিঘা (Bigha)</option>
+                                <option value="acre">একর (Acre)</option>
+                                <option value="hectare">হেক্টর (Hectare)</option>
+                                <option value="sqm">বর্গমিটার (Sq M)</option>
+                                <option value="sqyd">বর্গগজ (Sq Yd)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="calc-btn calc-reset" onclick="resetConverter2()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                            <path d="M3 3v5h5"/>
+                        </svg>
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-wrapper conversion-table">
+                <div class="table-header-row">
+                    <h2 class="table-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                        Complete Conversion Table
+                    </h2>
+                    <div class="table-stats">
+                        <span class="stat-item">
+                            <span class="stat-value">1</span>
+                            <span class="stat-label">শতক</span>
+                        </span>
+                        <span class="stat-divider"></span>
+                        <span class="stat-item">
+                            <span class="stat-value">435.60</span>
+                            <span class="stat-label">বর্গফুট</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr class="header-row">
+                                <th>Unit (একক)</th>
+                                <th>Value (মান)</th>
+                                <th>To Sq. Ft</th>
+                                <th>To Sq. M</th>
+                                <th>To Decimal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="conversionTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="quick-convert-section">
+                <div class="quick-header">
+                    <h3 class="quick-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        Quick Reference - 1 Unit equals:
+                    </h3>
+                </div>
+                <div class="quick-grid">
+                    <div class="quick-card">
+                        <div class="quick-value">1</div>
+                        <div class="quick-unit">শতক (Decimal)</div>
+                        <div class="quick-equals">=</div>
+                        <div class="quick-result">435.60 বর্গফুট</div>
+                    </div>
+                    <div class="quick-card">
+                        <div class="quick-value">1</div>
+                        <div class="quick-unit">কাঠা (Katha)</div>
+                        <div class="quick-equals">=</div>
+                        <div class="quick-result">1.65 শতক</div>
+                    </div>
+                    <div class="quick-card">
+                        <div class="quick-value">1</div>
+                        <div class="quick-unit">বিঘা (Bigha)</div>
+                        <div class="quick-equals">=</div>
+                        <div class="quick-result">33 শতক</div>
+                    </div>
+                    <div class="quick-card">
+                        <div class="quick-value">1</div>
+                        <div class="quick-unit">একর (Acre)</div>
+                        <div class="quick-equals">=</div>
+                        <div class="quick-result">100 শতক</div>
+                    </div>
+                    <div class="quick-card">
+                        <div class="quick-value">1</div>
+                        <div class="quick-unit">হেক্টর (Hectare)</div>
+                        <div class="quick-equals">=</div>
+                        <div class="quick-result">247.10 একর</div>
+                    </div>
+                    <div class="quick-card">
+                        <div class="quick-value">1</div>
+                        <div class="quick-unit">বর্গমিটার</div>
+                        <div class="quick-equals">=</div>
+                        <div class="quick-result">0.0247 শতক</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scientific Calculator Tab -->
+        <div id="scientificCalc" class="tab-content">
+            <div class="author-section">
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="8" r="4"/>
+                            <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+                        </svg>
+                    </div>
+                    <div class="author-info">
+                        <span class="author-name">Scientific Calculator</span>
+                        <span class="author-contact">Student & Professional Tool</span>
+                    </div>
+                    <div class="co-author">
+                        <span class="co-label">Features</span>
+                        <span class="co-name">Math & Conversions</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-bar">
+                <div class="info-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4M12 8h.01"/>
+                    </svg>
+                </div>
+                <div class="info-content">
+                    <span class="info-label">Scientific Functions</span>
+                    <span class="info-text">Trigonometry | Logarithm | Power | Square Root | Percentage | Unit Conversions</span>
+                </div>
+            </div>
+
+            <div class="calculator-wrapper sci-calc">
+                <div class="calc-header">
+                    <h2 class="calc-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="2" width="16" height="20" rx="2"/>
+                            <line x1="8" y1="6" x2="16" y2="6"/>
+                            <line x1="8" y1="10" x2="16" y2="10"/>
+                            <line x1="8" y1="14" x2="12" y2="14"/>
+                            <line x1="8" y1="18" x2="12" y2="18"/>
+                        </svg>
+                        Scientific Calculator
+                    </h2>
+                    <div class="calc-stats">
+                        <span class="stat-item">
+                            <span class="stat-value">50+</span>
+                            <span class="stat-label">Functions</span>
+                        </span>
+                        <span class="stat-divider"></span>
+                        <span class="stat-item">
+                            <span class="stat-value">∞</span>
+                            <span class="stat-label">Precision</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="calc-display">
+                    <input type="text" id="sciExpression" class="sci-input" placeholder="Enter expression (e.g., 2+2, sin(30), sqrt(16))" autocomplete="off">
+                </div>
+
+                <div class="sci-result">
+                    <label>Result:</label>
+                    <input type="text" id="sciResult" class="sci-output" readonly placeholder="0">
+                </div>
+
+                <div class="sci-keypad">
+                    <div class="sci-row">
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.sin(')">sin</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.cos(')">cos</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.tan(')">tan</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.log10(')">log</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.sqrt(')">√</button>
+                    </div>
+                    <div class="sci-row">
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.PI')">π</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.E')">e</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.abs(')">abs</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.log(')">ln</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.exp(')">exp</button>
+                    </div>
+                    <div class="sci-row">
+                        <button class="sci-btn sci-op" onclick="sciInput('**')">x<span>y</span></button>
+                        <button class="sci-btn sci-op" onclick="sciInput('Math.pow(')">x²</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('%')">%</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('fact(')">fact</button>
+                    </div>
+                    <div class="sci-row">
+                        <button class="sci-btn sci-num" onclick="sciInput('7')">7</button>
+                        <button class="sci-btn sci-num" onclick="sciInput('8')">8</button>
+                        <button class="sci-btn sci-num" onclick="sciInput('9')">9</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('/')">÷</button>
+                        <button class="sci-btn sci-fn" onclick="sciClear()">C</button>
+                    </div>
+                    <div class="sci-row">
+                        <button class="sci-btn sci-num" onclick="sciInput('4')">4</button>
+                        <button class="sci-btn sci-num" onclick="sciInput('5')">5</button>
+                        <button class="sci-btn sci-num" onclick="sciInput('6')">6</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('*')">×</button>
+                        <button class="sci-btn sci-fn" onclick="sciBackspace()">⌫</button>
+                    </div>
+                    <div class="sci-row">
+                        <button class="sci-btn sci-num" onclick="sciInput('1')">1</button>
+                        <button class="sci-btn sci-num" onclick="sciInput('2')">2</button>
+                        <button class="sci-btn sci-num" onclick="sciInput('3')">3</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('-')">−</button>
+                        <button class="sci-btn sci-eq" onclick="sciCalculate()">=</button>
+                    </div>
+                    <div class="sci-row">
+                        <button class="sci-btn sci-num" onclick="sciInput('0')">0</button>
+                        <button class="sci-btn sci-num" onclick="sciInput('.')">.</button>
+                        <button class="sci-btn sci-op" onclick="sciInput('(')">(</button>
+                        <button class="sci-btn sci-op" onclick="sciInput(')')">)</button>
+                        <button class="sci-btn sci-fn" onclick="sciInput('+')">+</button>
+                    </div>
+                </div>
+
+                <div class="sci-conversions">
+                    <h4>Quick Conversions</h4>
+                    <div class="sci-conv-grid">
+                        <div class="sci-conv-item">
+                            <label>km to miles:</label>
+                            <input type="number" id="convKm" placeholder="km" oninput="convertKmToMiles()">
+                            <span class="conv-result" id="convKmResult">0 miles</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>kg to lbs:</label>
+                            <input type="number" id="convKg" placeholder="kg" oninput="convertKgToLbs()">
+                            <span class="conv-result" id="convKgResult">0 lbs</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>Celsius to Fahrenheit:</label>
+                            <input type="number" id="convCelsius" placeholder="°C" oninput="convertCelsiusToF()">
+                            <span class="conv-result" id="convCelsiusResult">0°F</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>Cooking - tbsp to ml:</label>
+                            <input type="number" id="convTbsp" placeholder="tbsp" oninput="convertTbspToMl()">
+                            <span class="conv-result" id="convTbspResult">0 ml</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>Meter to Feet:</label>
+                            <input type="number" id="convMeter" placeholder="m" oninput="convertMeterToFeet()">
+                            <span class="conv-result" id="convMeterResult">0 ft</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>Liter to Gallon:</label>
+                            <input type="number" id="convLiter" placeholder="L" oninput="convertLiterToGallon()">
+                            <span class="conv-result" id="convLiterResult">0 gal</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>Sq Meter to Sq Ft:</label>
+                            <input type="number" id="convSqm" placeholder="sqm" oninput="convertSqmToSqft()">
+                            <span class="conv-result" id="convSqmResult">0 sqft</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>Miles to km:</label>
+                            <input type="number" id="convMiles" placeholder="mi" oninput="convertMilesToKm()">
+                            <span class="conv-result" id="convMilesResult">0 km</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>Lbs to kg:</label>
+                            <input type="number" id="convLbs" placeholder="lbs" oninput="convertLbsToKg()">
+                            <span class="conv-result" id="convLbsResult">0 kg</span>
+                        </div>
+                        <div class="sci-conv-item">
+                            <label>Fahrenheit to °C:</label>
+                            <input type="number" id="convFahrenheit" placeholder="°F" oninput="convertFahrenheitToC()">
+                            <span class="conv-result" id="convFahrenheitResult">0°C</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <div class="table-header-row">
+                    <h2 class="table-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                        </svg>
+                        Measurement & Conversion Guide
+                    </h2>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr class="header-row">
+                                <th>Category</th>
+                                <th>Unit</th>
+                                <th>To Standard</th>
+                            </tr>
+                        </thead>
+                        <tbody id="measurementTableBody">
+                            <tr><td>Distance</td><td>1 km</td><td>0.621371 miles</td></tr>
+                            <tr><td>Distance</td><td>1 mile</td><td>1.60934 km</td></tr>
+                            <tr><td>Weight</td><td>1 kg</td><td>2.20462 lbs</td></tr>
+                            <tr><td>Weight</td><td>1 lb</td><td>0.453592 kg</td></tr>
+                            <tr><td>Temperature</td><td>0°C</td><td>32°F</td></tr>
+                            <tr><td>Volume</td><td>1 tbsp</td><td>14.787 ml</td></tr>
+                            <tr><td>Volume</td><td>1 cup</td><td>236.588 ml</td></tr>
+                            <tr><td>Area</td><td>1 sqm</td><td>10.764 sqft</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-logo">DG</span>
+                <span class="footer-text">DevGenie</span>
+            </div>
+            <div class="footer-divider"></div>
+            <span class="footer-credit">Land Tools v2.0 - Complete Bangladesh Land Solution</span>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script src="app2.js"></script>
+    <script src="app3.js"></script>
+    <script src="utils.js"></script>
+
+
+</body>
+</html>
